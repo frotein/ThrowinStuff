@@ -32,6 +32,7 @@ public class MyDistanceJoint2D : MonoBehaviour
             Vector2 dir = (anchorPoint - playerPos).normalized;
             Vector2 newPoint = anchorPoint + -dir * maxDistance;
 
+            Vector2 perpDir = new Vector2(-dir.y, dir.x);
             //Vector2 newMovement = newPoint - playerPos;
 
             //connectedPlayer.AdjustVelocity(newMovement);
@@ -39,10 +40,13 @@ public class MyDistanceJoint2D : MonoBehaviour
             connectedPlayer.transform.position = newPoint.XYZ(connectedPlayer.transform.position.z);
             bool left = ExtensionMethods.isLeft(newPoint, anchorPoint, playerPos);
 
+            if (left)
+                perpDir *= -1f;
 
             //testPoint.position = newPoint + perpDir * 5f;
 
             Debug.Log(perpDir.x);
+            connectedPlayer.velocity = Vector3.Project(connectedPlayer.velocity, perpDir.XYZ(0)).XY() * 1.079f;
             
         }
     }
