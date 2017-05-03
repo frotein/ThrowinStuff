@@ -72,7 +72,7 @@ public class PhysicsSystem : MonoBehaviour {
         
         if (Time.time > refreshTime + lineRefreshRate && lastCount - positions.Count < 10)
         {
-            rend.numPositions = (positions.Count);
+            rend.positionCount = (positions.Count);
             rend.SetPositions(positions.ToArray());
             refreshTime = Time.time;
         }

@@ -46,6 +46,7 @@ public class PhysicsObject : MonoBehaviour {
     public void Move()
     {
         controller.Move(velocity * Time.deltaTime);
+        controller.ApplyMovement();
     }
 
     public void GrabbedObject()

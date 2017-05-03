@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     private float gravity;
     private float maxJumpVelocity;
     private float minJumpVelocity;
-    private Vector3 velocity;
+    public Vector3 velocity;
     private float velocityXSmoothing;
 
     private Controller2D controller;
@@ -55,10 +55,21 @@ public class Player : MonoBehaviour
             velocity.y = 0f;
         }
     }
+    
+    private void LateUpdate()
+    {
+        //controller.ApplyMovement();
+    }    
 
     public void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;
+    }
+
+    // only use after velocity is calculated
+    public Vector2 NextFramePosition()
+    {
+        return ((Vector2)transform.position) + controller.Movement();
     }
 
     public void OnJumpInputDown()
@@ -142,4 +153,11 @@ public class Player : MonoBehaviour
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirborne));
         velocity.y += gravity * Time.deltaTime;
     }
+
+    public void AdjustVelocity(Vector2 amt)
+    {
+        velocity += (Vector3)amt;
+    }
+
+    public Vector2 Velocity() { return velocity; }
 }

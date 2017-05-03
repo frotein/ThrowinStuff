@@ -10,6 +10,7 @@ public class Controller2D : RaycastController
     [HideInInspector]
     public Vector2 playerInput;
 
+    private Vector2 actualMovement;
     public override void Start()
     {
         base.Start();
@@ -46,16 +47,24 @@ public class Controller2D : RaycastController
             VerticalCollisions(ref moveAmount);
         }
 
+        actualMovement = moveAmount;
 
-
-        transform.position +=(Vector3)(moveAmount);
 
         if (standingOnPlatform)
         {
             collisions.below = true;
         }
+
+        ApplyMovement();
     }
 
+    public Vector2 Movement() { return actualMovement;  }
+
+    public void ApplyMovement()
+    {
+
+        transform.position += (Vector3)(actualMovement);
+    }
     private void HorizontalCollisions(ref Vector2 moveAmount)
     {
         float directionX = collisions.faceDir;
